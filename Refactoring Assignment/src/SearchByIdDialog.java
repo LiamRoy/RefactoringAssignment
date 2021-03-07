@@ -73,8 +73,12 @@ public class SearchByIdDialog extends JDialog implements ActionListener {
 
 	// action listener for save and cancel button
 	public void actionPerformed(ActionEvent e) {
+		final boolean searchOption, cancelOption;
+		searchOption = (e.getSource() == search);
+		cancelOption = (e.getSource() == cancel);
+		
 		// if option search, search for Employee
-		if (e.getSource() == search) {
+		if (searchOption) {
 			// try get correct valus from text field
 			try {
 				Double.parseDouble(searchField.getText());
@@ -90,7 +94,7 @@ public class SearchByIdDialog extends JDialog implements ActionListener {
 			}// end catch
 		}// end if
 		// else dispose dialog
-		else if (e.getSource() == cancel)
+		else if (cancelOption)
 			dispose();
 	}// end actionPerformed
 }// end class searchByIdDialog
