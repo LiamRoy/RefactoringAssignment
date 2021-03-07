@@ -85,15 +85,23 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		save.requestFocus();
 		buttonPanel.add(cancel = new JButton("Cancel"));
 		cancel.addActionListener(this);
+		
+		
+		
 
 		empDetails.add(buttonPanel, "span 2,growx, pushx,wrap");
 		// loop through all panel components and add fonts and listeners
 		for (int i = 0; i < empDetails.getComponentCount(); i++) {
 			empDetails.getComponent(i).setFont(this.parent.font1);
-			if (empDetails.getComponent(i) instanceof JComboBox) {
+			
+			final Boolean empDetailsInstanceOfCombobox, empDetailsInstanceOfTextField;
+			empDetailsInstanceOfCombobox = (empDetails.getComponent(i) instanceof JComboBox);
+			empDetailsInstanceOfTextField = (empDetails.getComponent(i) instanceof JTextField);
+			
+			if (empDetailsInstanceOfCombobox) {
 				empDetails.getComponent(i).setBackground(Color.WHITE);
 			}// end if
-			else if(empDetails.getComponent(i) instanceof JTextField){
+			else if(empDetailsInstanceOfTextField){
 				field = (JTextField) empDetails.getComponent(i);
 				if(field == ppsField)
 					field.setDocument(new JTextFieldLimit(9));
@@ -109,8 +117,10 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 	public void addRecord() {
 		boolean fullTime = false;
 		Employee theEmployee;
+		final Boolean fullTimeComboYes;
+		fullTimeComboYes = (((String) fullTimeCombo.getSelectedItem()).equalsIgnoreCase("Yes"));
 
-		if (((String) fullTimeCombo.getSelectedItem()).equalsIgnoreCase("Yes"))
+		if (fullTimeComboYes)
 			fullTime = true;
 		// create new Employee record with details from text fields
 		theEmployee = new Employee(Integer.parseInt(idField.getText()), ppsField.getText().toUpperCase(), surnameField.getText().toUpperCase(),
@@ -124,35 +134,46 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 	// check for input in text fields
 	public boolean checkInput() {
 		boolean valid = true;
+		final boolean ppsFieldEquals, parentCorrectPps,surnameFieldEmpty,firstNameFieldEmpty, genderCombo0, departmentCombo0,
+		salaryFieldGreaterThan0, fullTimeCombo0;
+		ppsFieldEquals = (ppsField.getText().equals(""));
+		parentCorrectPps = (this.parent.correctPps(this.ppsField.getText().trim(), -1));
+		surnameFieldEmpty = (surnameField.getText().isEmpty());
+		firstNameFieldEmpty = (firstNameField.getText().isEmpty());
+		genderCombo0 = (genderCombo.getSelectedIndex() == 0);
+		departmentCombo0 = (departmentCombo.getSelectedIndex() == 0);
+		salaryFieldGreaterThan0 = (Double.parseDouble(salaryField.getText()) < 0);
+		fullTimeCombo0 = (fullTimeCombo.getSelectedIndex() == 0);
+		
 		// if any of inputs are in wrong format, colour text field and display message
-		if (ppsField.getText().equals("")) {
+		if (ppsFieldEquals) {
 			ppsField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
-		if (this.parent.correctPps(this.ppsField.getText().trim(), -1)) {
+		if (parentCorrectPps) {
 			ppsField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
-		if (surnameField.getText().isEmpty()) {
+		if (surnameFieldEmpty) {
 			surnameField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
-		if (firstNameField.getText().isEmpty()) {
+		if (firstNameFieldEmpty) {
 			firstNameField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
-		if (genderCombo.getSelectedIndex() == 0) {
+		if (genderCombo0) {
 			genderCombo.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
-		if (departmentCombo.getSelectedIndex() == 0) {
+		if (departmentCombo0) {
 			departmentCombo.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
 		try {// try to get values from text field
 			Double.parseDouble(salaryField.getText());
 			// check if salary is greater than 0
-			if (Double.parseDouble(salaryField.getText()) < 0) {
+			if (salaryFieldGreaterThan0) {
 				salaryField.setBackground(new Color(255, 150, 150));
 				valid = false;
 			}// end if
@@ -161,7 +182,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 			salaryField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end catch
-		if (fullTimeCombo.getSelectedIndex() == 0) {
+		if (fullTimeCombo0) {
 			fullTimeCombo.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
@@ -181,8 +202,16 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 
 	// action performed
 	public void actionPerformed(ActionEvent e) {
+		
+		//saved in temp variables - Explaining Variables
+		final boolean save1;
+		final boolean cancel1;
+		save1 = (e.getSource() == save);
+		cancel1 = (e.getSource() == cancel);
+		
+		
 		// if chosen option save, save record to file
-		if (e.getSource() == save) {
+		if (save1) {
 			// if inputs correct, save record
 			if (checkInput()) {
 				addRecord();// add record to file
@@ -195,7 +224,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 				setToWhite();
 			}// end else
 		}// end if
-		else if (e.getSource() == cancel)
+		else if (cancel1)
 			dispose();// dispose dialog
 	}// end actionPerformed
 }// end class AddRecordDialog
