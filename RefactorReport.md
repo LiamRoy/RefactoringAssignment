@@ -13,8 +13,7 @@
   - The Strategy pattern is a common pattern which can be implemented in many occasions. 
   - I believe using the Strategy pattern helps to make code clearer and easier to understand. This is why i implemented it.
   ## Code before the Strategy pattern implemented:
-  #
-   - EmployeeDetails.java
+      
       public boolean correctPps(String pps, long currentByte) {
 		boolean ppsExist = false;
 		// check for correct PPS format based on assignment description
