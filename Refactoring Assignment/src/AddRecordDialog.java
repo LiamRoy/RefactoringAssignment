@@ -58,7 +58,6 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		empDetails.add(idField = new JTextField(20), "growx, pushx, wrap");
 		idField.setEditable(false);
 		
-
 		empDetails.add(new JLabel("PPS Number:"), "growx, pushx");
 		empDetails.add(ppsField = new JTextField(20), "growx, pushx, wrap");
 
@@ -85,8 +84,6 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		save.requestFocus();
 		buttonPanel.add(cancel = new JButton("Cancel"));
 		cancel.addActionListener(this);
-		
-		
 		
 
 		empDetails.add(buttonPanel, "span 2,growx, pushx,wrap");
@@ -208,7 +205,6 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		final boolean cancel1;
 		save1 = (e.getSource() == save);
 		cancel1 = (e.getSource() == cancel);
-		
 		
 		// if chosen option save, save record to file
 		if (save1) {
