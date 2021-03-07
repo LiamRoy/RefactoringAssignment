@@ -69,7 +69,6 @@ public class RandomAccessEmployeeRecord extends Employee
       throws IOException
    {
       StringBuffer buffer = null;
-
       if ( name != null ) 
          buffer = new StringBuffer( name );
       else 

@@ -18,7 +18,6 @@ public class RandomFile {
 	// Create new file
 	public void createFile(String fileName) {
 		RandomAccessFile file = null;
-
 		try // open file for reading and writing
 		{
 			file = new RandomAccessFile(fileName, "rw");
