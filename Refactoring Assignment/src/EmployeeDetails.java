@@ -49,7 +49,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
 
-public class EmployeeDetails extends JFrame implements ActionListener, ItemListener, DocumentListener, WindowListener {
+public class EmployeeDetails extends JFrame implements ActionListener, ItemListener, DocumentListener, WindowListener, PPSInterface {
+	
+	PPSInterface ppsType;
+	
 	// decimal format for inactive currency text field
 	private static final DecimalFormat format = new DecimalFormat("\u20ac ###,###,##0.00");
 	// decimal format for active currency text field
@@ -279,7 +282,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 					field.setDocument(new JTextFieldLimit(20));
 				field.getDocument().addDocumentListener(this);
 			} // end if
-			else if (empDetails.getComponent(i) instanceof JComboBox) {
+			if (empDetails.getComponent(i) instanceof JComboBox) {
 				empDetails.getComponent(i).setBackground(Color.WHITE);
 				empDetails.getComponent(i).setEnabled(false);
 				((JComboBox<String>) empDetails.getComponent(i)).addItemListener(this);
@@ -650,29 +653,16 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 	}// end isSomeoneToDisplay
 
 	// check for correct PPS format and look if PPS already in use
-	public boolean correctPps(String pps, long currentByte) {
-		boolean ppsExist = false;
-		// check for correct PPS format based on assignment description
-		if (pps.length() == 8 || pps.length() == 9) {
-			if (Character.isDigit(pps.charAt(0)) && Character.isDigit(pps.charAt(1))
-					&& Character.isDigit(pps.charAt(2))	&& Character.isDigit(pps.charAt(3)) 
-					&& Character.isDigit(pps.charAt(4))	&& Character.isDigit(pps.charAt(5)) 
-					&& Character.isDigit(pps.charAt(6))	&& Character.isLetter(pps.charAt(7))
-					&& (pps.length() == 8 || Character.isLetter(pps.charAt(8)))) {
-				// open file for reading
-				application.openReadFile(file.getAbsolutePath());
-				// look in file is PPS already in use
-				ppsExist = application.isPpsExist(pps, currentByte);
-				application.closeReadFile();// close file for reading
-			} // end if
-			else
-				ppsExist = true;
-		} // end if
-		else
-			ppsExist = true;
-
-		return ppsExist;
-	}// end correctPPS
+	@Override
+	public Boolean correctPPS(String pps, long currentByte) {
+		ppsType = new correctPPS();
+		// open file for reading
+		application.openReadFile(file.getAbsolutePath());
+		// look in file is PPS already in use
+		//ppsExist = application.isPpsExist(pps, currentByte);
+		application.closeReadFile();// close file for reading
+		return ppsType.correctPPS(pps, currentByte);
+	}
 
 	// check if file name has extension .dat
 	private boolean checkFileName(File fileName) {
@@ -713,7 +703,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 			ppsField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		} // end if
-		if (ppsField.isEditable() && correctPps(ppsField.getText().trim(), currentByteStart)) {
+		if (ppsField.isEditable() && correctPPS(ppsField.getText().trim(), currentByteStart)) {
 			ppsField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		} // end if
@@ -1136,4 +1126,6 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 	public void windowOpened(WindowEvent e) {
 	}
+
+	
 }// end class EmployeeDetails

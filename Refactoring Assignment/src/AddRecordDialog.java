@@ -134,7 +134,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		final boolean ppsFieldEquals, parentCorrectPps,surnameFieldEmpty,firstNameFieldEmpty, genderCombo0, departmentCombo0,
 		salaryFieldGreaterThan0, fullTimeCombo0;
 		ppsFieldEquals = (ppsField.getText().equals(""));
-		parentCorrectPps = (this.parent.correctPps(this.ppsField.getText().trim(), -1));
+		parentCorrectPps = (this.parent.correctPPS(this.ppsField.getText().trim(), -1));
 		surnameFieldEmpty = (surnameField.getText().isEmpty());
 		firstNameFieldEmpty = (firstNameField.getText().isEmpty());
 		genderCombo0 = (genderCombo.getSelectedIndex() == 0);
